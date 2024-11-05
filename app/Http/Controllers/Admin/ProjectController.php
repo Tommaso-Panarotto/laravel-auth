@@ -53,7 +53,8 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $project = Project::findOrFail($id);
+        return view("admin.projects.edit", compact("project"));
     }
 
     /**
@@ -61,7 +62,13 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $formData =  $request->all();
+
+        $project = Project::findOrFail($id);
+
+        $project->update($formData);
+
+        return redirect()->route("admin.projects.show", ["id"=>$project->id]);
     }
 
     /**
