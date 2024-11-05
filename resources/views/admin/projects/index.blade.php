@@ -26,7 +26,14 @@
             <td><a href="{{$project->url}}">{{ $project->url }}</a></td>
             <td>
                 <a href="{{route("admin.projects.show", $project->id)}}" class="btn btn-primary btn-sm">Detail</a>
-                <a href="{{route("admin.projects.edit", $project->id)}}" class="btn btn-success btn-sm ms-1 px-3">Edit</a>
+                <a href="{{route("admin.projects.edit", $project->id)}}" class="btn btn-success btn-sm ms-2 px-3">Edit</a>
+                <form action="{{ route("admin.projects.delete", $project->id)}}" class="d-inline project-delete" method="POST" custom-data-name="{{$project->title}}">
+                    @csrf
+                    @method("DELETE")
+                    <button type="submit" class="btn btn-danger btn-sm ms-2">
+                        Delete
+                    </button>
+                </form>
             </td>
           </tr>
           @empty
@@ -40,3 +47,8 @@
     </div>
     </div>
 @endsection
+
+@section("script-js")
+   @vite("resources/js/projects/project.js")
+@endsection
+
