@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -12,8 +13,19 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = [];
+        $projects = Project::all();
+
         return view("admin.projects.index", compact("projects"));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $project = Project::findOrFail($id);
+
+        return view("admin.projects.show", compact("project"));
     }
 
     /**
@@ -29,15 +41,11 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $formData = $request->all();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $project = Project::create($formData);
+
+        return redirect()->route("admin.projects.show", ["id"=>$project->id]);
     }
 
     /**
