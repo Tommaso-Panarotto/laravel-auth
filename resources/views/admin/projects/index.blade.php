@@ -12,7 +12,8 @@
                 <th scope="col"> </th>
                 <th scope="col">Title</th>
                 <th scope="col">Language</th>
-                <th scope="col">url</th>
+                <th scope="col">link</th>
+                <th scope="col">Function</th>
             </tr>
         </thead>
 
@@ -21,10 +22,16 @@
           <tr>
             <th scope="row">{{ $project->id }}</th>
             <td>{{ $project->title }}</td>
+            <td>{{ $project->language }}</td>
+            <td><a href="{{$project->url}}">{{ $project->url }}</a></td>
+            <td>
+                <a href="{{route("admin.projects.show", $project->id)}}" class="btn btn-primary btn-sm">Detail</a>
+                <a href="{{route("admin.projects.edit", $project->id)}}" class="btn btn-success btn-sm ms-1 px-3">Edit</a>
+            </td>
           </tr>
           @empty
           <tr>
-             <h2>Non ci sono piante in catalogo....</h2>
+             <h2>Non ci sono progetti....</h2>
           </tr>
         @endforelse
         </tbody>
