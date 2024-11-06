@@ -43,11 +43,11 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $formData = $request->validate();
+        $formData = $request->validated();
 
         $project = Project::create($formData);
 
-        return redirect()->route("admin.projects.show", ["id"=>$project->id]);
+        return redirect()->route("admin.projects.show", ["id" => $project->id]);
     }
 
     /**
@@ -70,7 +70,7 @@ class ProjectController extends Controller
 
         $project->update($formData);
 
-        return redirect()->route("admin.projects.show", ["id"=>$project->id]);
+        return redirect()->route("admin.projects.show", ["id" => $project->id]);
     }
 
     /**
@@ -83,5 +83,25 @@ class ProjectController extends Controller
         $project->delete();
 
         return redirect()->route("admin.projects.index");
+    }
+
+    public function deletedIndex()
+    {
+        $projects = Project::onlyTrashed()->get();
+        return view("admin.projects.deleted-index", compact("projects"));
+    }
+
+    public function restore(string $id)
+    {
+        $project = Project::onlyTrashed()->findOrFail($id);
+        $project->restore();
+        return redirect()->route("admin.projects.index");
+    }
+
+    public function permanentDelete(string $id)
+    {
+        $project = Project::onlyTrashed()->findOrFail($id);
+        $project->forceDelete();
+        return redirect()->route("admin.projects.deleted-index");
     }
 }
